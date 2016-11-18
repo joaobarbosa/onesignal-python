@@ -45,7 +45,9 @@ setup(
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
     # Requirements - https://packaging.python.org/en/latest/requirements.html
-    install_requires=[],
+    install_requires=[
+        'requests==2.12.1',
+    ],
 
     # List additional groups of dependencies here - pip install -e .[dev,test]
     extras_require={
