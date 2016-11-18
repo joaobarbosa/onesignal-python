@@ -52,6 +52,10 @@ setup(
     # List additional groups of dependencies here - pip install -e .[dev,test]
     extras_require={
         'dev': [],
-        'test': [],
+        'test': [
+            'pytest==3.0.4',
+            'pytest-cov==2.4.0',
+            'pytest-pep8==1.0.6',
+        ],
     },
 )
