@@ -1,6 +1,7 @@
 import pytest
 
-from onesignal_client import OneSignalClient
+from onesignalclient.app_client import OneSignalAppClient
+from onesignalclient.user_client import OneSignalUserClient
 
 
 @pytest.fixture(scope="module")
@@ -14,6 +15,16 @@ def sample_app_api_key():
 
 
 @pytest.fixture(scope="module")
-def sample_client(sample_app_id, sample_app_api_key):
-    return OneSignalClient(
+def sample_auth_key():
+    return 'OMEtD0IktVMJDjwN22NGTRjzOjh0MMkEOIM4L42DjyGQTUyM'
+
+
+@pytest.fixture(scope="module")
+def sample_app_client(sample_app_id, sample_app_api_key):
+    return OneSignalAppClient(
         app_id=sample_app_id, app_api_key=sample_app_api_key)
+
+
+@pytest.fixture(scope="module")
+def sample_user_client(sample_auth_key):
+    return OneSignalUserClient(auth_key=sample_auth_key)
