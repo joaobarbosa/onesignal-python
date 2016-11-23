@@ -21,3 +21,6 @@ class OneSignalUserClient(OneSignalBaseClient):
         :return: Returns dict which contains the headers
         """
         return self._get_headers()
+
+    def get_apps(self):
+        return self.get(self._url('apps'))
