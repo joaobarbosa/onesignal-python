@@ -1,2 +1,3 @@
 from .version import __version__
-from .onesignal_client import OneSignalClient
+from .app_client import OneSignalAppClient
+from .user_client import OneSignalUserClient
