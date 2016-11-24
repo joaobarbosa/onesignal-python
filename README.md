@@ -17,3 +17,29 @@ Using **make**:
 Using **pytest**:
 
 ```py.test --pep8 --cov=. --cov-report=term-missing --cov-config=.coveragerc -r a -v -s```
+
+## Todo
+
+### API Methods
+
+List of API methods to be covered by our client.
+
+[U] - requires User Auth | [A] - requires App API Key
+
+- [A] Create notification
+- [A] Cancel notification
+- ~~[U] View apps~~
+- [U] View an app
+- [U] Create an app
+- [U] Update an app
+- [A] View devices
+- View device
+- [U] Add a device
+- Edit device
+- [U] New session
+- New purchase
+- Increment session length
+- [A] CSV export
+- [U] View notification
+- [A] View notifications
+- Track open
