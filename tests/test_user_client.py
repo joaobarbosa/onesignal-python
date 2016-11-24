@@ -31,6 +31,7 @@ class TestUserClient:
         )
 
     def teardown_method(self, method):
+        httpretty.reset()
         httpretty.disable()
 
     def test_init_client(self, sample_auth_key):
