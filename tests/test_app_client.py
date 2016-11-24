@@ -1,7 +1,7 @@
 from onesignalclient.app_client import OneSignalAppClient
 
 
-class TestAppModeInit:
+class TestAppClient:
     def test_init_client(self, sample_app_id, sample_app_api_key):
         client = OneSignalAppClient(
             app_id=sample_app_id, app_api_key=sample_app_api_key

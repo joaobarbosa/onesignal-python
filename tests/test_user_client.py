@@ -1,11 +1,11 @@
 import re
-
+import pytest
 import httpretty
-
+from requests.exceptions import HTTPError
 from onesignalclient.user_client import OneSignalUserClient
 
 
-class TestAppModeInit:
+class TestUserClient:
     def test_init_client(self, sample_auth_key):
         client = OneSignalUserClient(auth_key=sample_auth_key)
         assert client.mode == OneSignalUserClient.MODE_USER
@@ -27,3 +27,14 @@ class TestAppModeInit:
 
         apps = sample_user_client.get_apps()
         assert len(apps) == 1
+
+    @httpretty.activate
+    def test_fail_get_apps(self, sample_user_client):
+        httpretty.register_uri(
+            httpretty.GET,
+            re.compile("https://onesignal.com/api/v1/(\w+)"),
+            status=400
+        )
+
+        with pytest.raises(HTTPError):
+            sample_user_client.get_apps()
