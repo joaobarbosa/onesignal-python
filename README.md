@@ -3,6 +3,15 @@ Python client for OneSignal push notification service
 
 [![Build Status](https://travis-ci.org/joaobarbosa/onesignal-python.png?branch=master)](https://travis-ci.org/joaobarbosa/onesignal-python)
 
+## Installing
+
+- ```pip install onesignal-python```
+- ```pip install git+https://github.com/joaobarbosa/onesignal-python.git```
+
+## Usage
+
+*Coming soon...*
+
 ## Requirements
 
 - Python 3.3+
@@ -24,12 +33,12 @@ Using **pytest**:
 
 List of API methods to be covered by our client.
 
-[U] - requires User Auth | [A] - requires App API Key
+**[U]** - requires User Auth | **[A]** - requires App API Key
 
 - [A] Create notification
 - [A] Cancel notification
 - ~~[U] View apps~~
-- [U] View an app
+- ~~[U] View an app~~
 - [U] Create an app
 - [U] Update an app
 - [A] View devices

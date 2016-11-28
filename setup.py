@@ -9,7 +9,7 @@ from os import path
 
 here = path.abspath(path.dirname(__file__))
 __version__ = None
-with open('onesignal_client/version.py') as f:
+with open('onesignalclient/version.py') as f:
     exec(f.read())
 
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
