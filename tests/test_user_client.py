@@ -2,6 +2,7 @@ import re
 import pytest
 import httpretty
 from requests.exceptions import HTTPError
+from requests.status_codes import codes
 from onesignalclient.user_client import OneSignalUserClient
 
 
@@ -14,8 +15,12 @@ class TestUserClient:
         },
         'test_get_apps_bad_request': {
             'uri': 'https://onesignal.com/api/v1/apps',
-            'status': 400
-        }
+            'status': codes.bad_request
+        },
+        'test_get_app': {
+            'uri': re.compile('https://onesignal.com/api/v1/apps/(\w|\-)+'),
+            'body': '{"id": "92911750-242d-4260-9e00-9d9034f139ce"}',
+        },
     }
 
     def setup_method(self, method):
@@ -25,7 +30,7 @@ class TestUserClient:
         httpretty.register_uri(
             request_data.get('method', httpretty.GET),
             request_data.get('uri', self.default_uri),
-            status=request_data.get('status', 200),
+            status=request_data.get('status', codes.ok),
             body=request_data.get('body', '{}'),
             content_type=request_data.get('content_type', 'application/json')
         )
@@ -51,3 +56,7 @@ class TestUserClient:
     def test_get_apps_bad_request(self, sample_user_client):
         with pytest.raises(HTTPError):
             sample_user_client.get_apps()
+
+    def test_get_app(self, sample_user_client, sample_app_id):
+        apps = sample_user_client.get_app(sample_app_id)
+        assert apps.get('id', False)
