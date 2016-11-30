@@ -21,6 +21,10 @@ class TestUserClient:
             'uri': re.compile('https://onesignal.com/api/v1/apps/(\w|\-)+'),
             'body': '{"id": "92911750-242d-4260-9e00-9d9034f139ce"}',
         },
+        'test_get_app_not_found': {
+            'uri': re.compile('https://onesignal.com/api/v1/apps/(\w|\-)+'),
+            'status': codes.not_found
+        },
     }
 
     def setup_method(self, method):
@@ -58,5 +62,9 @@ class TestUserClient:
             sample_user_client.get_apps()
 
     def test_get_app(self, sample_user_client, sample_app_id):
-        apps = sample_user_client.get_app(sample_app_id)
-        assert apps.get('id', False)
+        app = sample_user_client.get_app(sample_app_id)
+        assert app.get('id', False)
+
+    def test_get_app_not_found(self, sample_user_client, sample_app_id):
+        with pytest.raises(HTTPError):
+            sample_user_client.get_app(sample_app_id)
