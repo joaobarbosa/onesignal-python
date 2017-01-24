@@ -17,10 +17,10 @@ class TestAppClient(BaseTest):
         assert 'Authorization' in headers
         assert sample_app_client.app_api_key in headers['Authorization']
 
-    def test_csv_export(self, sample_app_client, sample_app_id):
-        csv_link = sample_app_client.csv_export(sample_app_id)
+    def test_csv_export(self, sample_app_client):
+        csv_link = sample_app_client.csv_export()
         assert csv_link.get('csv_file_url', False)
 
-    def test_csv_export_not_found(self, sample_app_client, sample_app_id):
+    def test_csv_export_not_found(self, sample_app_client):
         with pytest.raises(HTTPError):
-            sample_app_client.csv_export(sample_app_id)
+            sample_app_client.csv_export()

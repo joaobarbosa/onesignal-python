@@ -26,6 +26,6 @@ class OneSignalAppClient(OneSignalBaseClient):
         """
         return self._get_headers()
 
-    def csv_export(self, app_id):
-        endpoint = 'players/csv_export?app_id=%s' % (app_id)
+    def csv_export(self, app_id=None):
+        endpoint = 'players/csv_export?app_id=%s' % (app_id or self.app_id)
         return self.post(self._url(endpoint))
