@@ -49,6 +49,7 @@ List of API methods to be covered by our client.
 - New purchase
 - Increment session length
 - ~~[A] CSV export~~
+- [A] CSV export with extra fields
 - [U] View notification
 - [A] View notifications
 - Track open
