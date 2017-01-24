@@ -39,7 +39,7 @@ class OneSignalBaseClient():
         :rtype: dict or list
         :raises requests.exceptions.HTTPError: if status code is not 2xx
         """
-        request = requests.get(url, headers=self._get_headers)
+        request = requests.get(url, headers=self._get_headers())
         request.raise_for_status()
         return request.json()
 
