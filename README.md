@@ -35,7 +35,11 @@ List of API methods to be covered by our client.
 
 **[U]** - requires User Auth | **[A]** - requires App API Key
 
-- [A] Create notification
+- [A] Create notification to segments
+    - Segments
+    - Devices
+    - Filters
+    - Common Parameters
 - [A] Cancel notification
 - ~~[U] View apps~~
 - ~~[U] View an app~~
@@ -48,8 +52,9 @@ List of API methods to be covered by our client.
 - [U] New session
 - New purchase
 - Increment session length
-- ~~[A] CSV export~~
-- [A] CSV export with extra fields
+- [A] CSV export
+    - ~~Regular export~~
+    - CSV export with extra fields
 - [U] View notification
 - [A] View notifications
 - Track open
