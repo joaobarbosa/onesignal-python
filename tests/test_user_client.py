@@ -5,26 +5,35 @@ from requests.exceptions import HTTPError
 from requests.status_codes import codes
 from onesignalclient.user_client import OneSignalUserClient
 
+base_url = 'https://onesignal.com/api/v1'
+
 
 class TestUserClient:
-    default_uri = re.compile('https://onesignal.com/api/v1/(\w+)')
+    default_uri = re.compile('%s/(\w+)' % (base_url))
     requests_mock = {
         'test_get_apps': {
-            'uri': 'https://onesignal.com/api/v1/apps',
+            'uri': '%s/apps' % (base_url),
             'body': '[{"id": "92911750-242d-4260-9e00-9d9034f139ce"}]',
         },
         'test_get_apps_bad_request': {
-            'uri': 'https://onesignal.com/api/v1/apps',
+            'uri': '%s/apps' % (base_url),
             'status': codes.bad_request
         },
         'test_get_app': {
-            'uri': re.compile('https://onesignal.com/api/v1/apps/(\w|\-)+'),
+            'uri': re.compile('%s/apps/(\w|\-)+' % (base_url)),
             'body': '{"id": "92911750-242d-4260-9e00-9d9034f139ce"}',
         },
         'test_get_app_not_found': {
-            'uri': re.compile('https://onesignal.com/api/v1/apps/(\w|\-)+'),
+            'uri': re.compile('%s/apps/(\w|\-)+' % (base_url)),
             'status': codes.not_found
         },
+        'test_csv_export': {
+            'uri': re.compile(
+                '%s/players/csv_export?app_id=(\w|\-)+' % (base_url)),
+            'body': '{"csv_file_url": "https://onesignal.com/csv_exports/b2f7f'
+                    '966-d8cc-11e4-bed1-df8f05be55ba/users_184948440ec0e334728'
+                    'e87228011ff41_2015-11-10.csv.gz"}',
+        }
     }
 
     def setup_method(self, method):
@@ -68,3 +77,7 @@ class TestUserClient:
     def test_get_app_not_found(self, sample_user_client, sample_app_id):
         with pytest.raises(HTTPError):
             sample_user_client.get_app(sample_app_id)
+
+    def test_csv_export(self, sample_user_client, sample_app_id):
+        csv_link = sample_user_client.csv_export(sample_app_id)
+        assert csv_link.get('csv_file_url', False)
