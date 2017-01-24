@@ -1,6 +1,6 @@
 import re
 import pytest
-import httpretty
+import responses
 from requests.exceptions import HTTPError
 from requests.status_codes import codes
 from onesignalclient.user_client import OneSignalUserClient
@@ -28,8 +28,9 @@ class TestUserClient:
             'status': codes.not_found
         },
         'test_csv_export': {
+            'method': responses.POST,
             'uri': re.compile(
-                '%s/players/csv_export?app_id=(\w|\-)+' % (base_url)),
+                '%s/players/csv_export\?app_id=(\w|\-)+' % (base_url)),
             'body': '{"csv_file_url": "https://onesignal.com/csv_exports/b2f7f'
                     '966-d8cc-11e4-bed1-df8f05be55ba/users_184948440ec0e334728'
                     'e87228011ff41_2015-11-10.csv.gz"}',
@@ -37,20 +38,20 @@ class TestUserClient:
     }
 
     def setup_method(self, method):
-        httpretty.enable()
+        responses.start()
         request_data = self.requests_mock.get(method.__name__, {})
 
-        httpretty.register_uri(
-            request_data.get('method', httpretty.GET),
-            request_data.get('uri', self.default_uri),
-            status=request_data.get('status', codes.ok),
+        responses.add(
+            method=request_data.get('method', responses.GET),
+            url=request_data.get('uri', self.default_uri),
             body=request_data.get('body', '{}'),
+            status=request_data.get('status', codes.ok),
             content_type=request_data.get('content_type', 'application/json')
         )
 
     def teardown_method(self, method):
-        httpretty.reset()
-        httpretty.disable()
+        responses.reset()
+        responses.stop()
 
     def test_init_client(self, sample_auth_key):
         client = OneSignalUserClient(auth_key=sample_auth_key)
