@@ -1,8 +1,5 @@
-import re
 import pytest
-import responses
 from requests.exceptions import HTTPError
-from requests.status_codes import codes
 from onesignalclient.user_client import OneSignalUserClient
 from .base_test import BaseTest
 
