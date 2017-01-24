@@ -13,7 +13,7 @@ class TestUserClient:
     requests_mock = {
         'test_get_apps': {
             'uri': '%s/apps' % (base_url),
-            'body': '[{"id": "92911750-242d-4260-9e00-9d9034f139ce"}]',
+            'body': '[{"id": "92911750-242d-4260-9e00-9d9034f139ce"}]'
         },
         'test_get_apps_bad_request': {
             'uri': '%s/apps' % (base_url),
@@ -21,7 +21,7 @@ class TestUserClient:
         },
         'test_get_app': {
             'uri': re.compile('%s/apps/(\w|\-)+' % (base_url)),
-            'body': '{"id": "92911750-242d-4260-9e00-9d9034f139ce"}',
+            'body': '{"id": "92911750-242d-4260-9e00-9d9034f139ce"}'
         },
         'test_get_app_not_found': {
             'uri': re.compile('%s/apps/(\w|\-)+' % (base_url)),
@@ -33,7 +33,13 @@ class TestUserClient:
                 '%s/players/csv_export\?app_id=(\w|\-)+' % (base_url)),
             'body': '{"csv_file_url": "https://onesignal.com/csv_exports/b2f7f'
                     '966-d8cc-11e4-bed1-df8f05be55ba/users_184948440ec0e334728'
-                    'e87228011ff41_2015-11-10.csv.gz"}',
+                    'e87228011ff41_2015-11-10.csv.gz"}'
+        },
+        'test_csv_export_not_found': {
+            'method': responses.POST,
+            'status': codes.not_found,
+            'uri': re.compile(
+                '%s/players/csv_export\?app_id=(\w|\-)+' % (base_url))
         }
     }
 
@@ -82,3 +88,7 @@ class TestUserClient:
     def test_csv_export(self, sample_user_client, sample_app_id):
         csv_link = sample_user_client.csv_export(sample_app_id)
         assert csv_link.get('csv_file_url', False)
+
+    def test_csv_export_not_found(self, sample_user_client, sample_app_id):
+        with pytest.raises(HTTPError):
+            sample_user_client.csv_export(sample_app_id)
