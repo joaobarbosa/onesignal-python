@@ -11,6 +11,7 @@ class OneSignalBaseClient():
     def _url(self, endpoint):
         """
         Build the full OneSignal API URL.
+
         :return: Returns the complete url string
         :rtype: str
         """
@@ -19,6 +20,7 @@ class OneSignalBaseClient():
     def _get_headers(self, custom_headers={}):
         """
         Build default headers for requests. Fallback to "app" mode
+
         :return: Returns dict which contains the headers
         :rtype: dict
         """
@@ -35,6 +37,8 @@ class OneSignalBaseClient():
     def get(self, url):
         """
         Perform a GET request.
+
+        :param url: URL to send the request.
         :return: Returns json response
         :rtype: dict or list
         :raises requests.exceptions.HTTPError: if status code is not 2xx
@@ -44,8 +48,18 @@ class OneSignalBaseClient():
         return request.json()
 
     def post(self, url, payload={}, headers={}):
-        json_paylaod = json.dumps(payload)
+        """
+        Perform a POST request.
+
+        :param url: URL to send the request.
+        :param payload: dict to be sent as request body/data.
+        :param headers: dict with headers to be used in the request.
+        :return: Returns json response
+        :rtype: dict or list
+        :raises requests.exceptions.HTTPError: if status code is not 2xx
+        """
+        json_payload = json.dumps(payload)
         final_headers = self._get_headers(custom_headers=headers)
-        request = requests.post(url, data=json_paylaod, headers=final_headers)
+        request = requests.post(url, data=json_payload, headers=final_headers)
         request.raise_for_status()
         return request.json()
