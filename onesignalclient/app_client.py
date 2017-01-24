@@ -25,3 +25,7 @@ class OneSignalAppClient(OneSignalBaseClient):
         :return: Returns dict which contains the headers
         """
         return self._get_headers()
+
+    def csv_export(self, app_id):
+        endpoint = 'players/csv_export?app_id=%s' % (app_id)
+        return self.post(self._url(endpoint))

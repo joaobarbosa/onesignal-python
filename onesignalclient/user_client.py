@@ -28,7 +28,3 @@ class OneSignalUserClient(OneSignalBaseClient):
     def get_app(self, id):
         endpoint = 'apps/%s' % (id)
         return self.get(self._url(endpoint))
-
-    def csv_export(self, app_id):
-        endpoint = 'players/csv_export?app_id=%s' % (app_id)
-        return self.post(self._url(endpoint))
