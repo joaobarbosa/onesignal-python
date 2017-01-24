@@ -1,4 +1,5 @@
 """Notification class."""
+import json
 
 
 class Notification():
@@ -8,14 +9,7 @@ class Notification():
     FILTERS_MODE = 'filters'
     NOTIFICATION_MODES = [SEGMENTS_MODE, DEVICES_MODE, FILTERS_MODE]
 
-    @property
-    def app_id(self):
-        return self._app_id
-
-    @app_id.setter
-    def app_id(self, value):
-        self._app_id = value
-
+    # Mode Settings
     @property
     def mode(self):
         return self._mode
@@ -24,6 +18,7 @@ class Notification():
     def mode(self, value):
         self._mode = value
 
+    # Device mode properties
     @property
     def include_player_ids(self):
         return self._include_player_ids
@@ -38,6 +33,30 @@ class Notification():
 
         self._include_player_ids = value
 
+    # Common Parameters - App
+    @property
+    def app_id(self):
+        return self._app_id
+
+    @app_id.setter
+    def app_id(self, value):
+        self._app_id = value
+
+    # Common Parameters - Attachments
+    @property
+    def data(self):
+        return json.loads(self._data)
+
+    @data.setter
+    def data(self, value):
+        if isinstance(value, str):
+            value = json.loads(value)
+
+        if not isinstance(value, dict):
+            raise TypeError('Value must be a dict.')
+
+        self._data = json.dumps(value)
+
     def __init__(self, app_id, mode=SEGMENTS_MODE):
         if mode not in self.NOTIFICATION_MODES:
             raise ValueError('Unknown operation mode.')
@@ -47,3 +66,6 @@ class Notification():
 
         # Device defaults
         self._include_player_ids = []
+
+        # Common defaults
+        self._data = ''

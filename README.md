@@ -40,7 +40,18 @@ List of API methods to be covered by our client.
     - ~~Devices mode settings & params~~
     - Filters mode settings & params
     - Common Parameters
-    - Multiple app_id support
+        - App
+            - ~~```app_id```~~
+            - ```app_ids```
+        - Attachments
+            - ~~```data```~~~
+            - ```url```
+            - ```ios_attachments```
+            - ```big_picture```
+            - ```adm_big_picture```
+            - ```chrome_big_picture```
+        - _Others coming soon_
+    - Export data for request
 - [A] Cancel notification
 - ~~[U] View apps~~
 - ~~[U] View an app~~
@@ -55,7 +66,7 @@ List of API methods to be covered by our client.
 - Increment session length
 - [A] CSV export
     - ~~Regular export~~
-    - CSV export with extra fields
+    - Extra fields
 - [U] View notification
 - [A] View notifications
 - Track open
