@@ -2,6 +2,7 @@ import pytest
 
 from onesignalclient.app_client import OneSignalAppClient
 from onesignalclient.user_client import OneSignalUserClient
+from onesignalclient.notification import Notification
 
 
 @pytest.fixture(scope="module")
@@ -28,3 +29,13 @@ def sample_app_client(sample_app_id, sample_app_api_key):
 @pytest.fixture(scope="module")
 def sample_user_client(sample_auth_key):
     return OneSignalUserClient(auth_key=sample_auth_key)
+
+
+@pytest.fixture(scope="module")
+def sample_device_notification(sample_app_id):
+    return Notification(sample_app_id, Notification.DEVICES_MODE)
+
+
+@pytest.fixture(scope="module")
+def sample_segment_notification(sample_app_id):
+    return Notification(sample_app_id, Notification.SEGMENTS_MODE)
