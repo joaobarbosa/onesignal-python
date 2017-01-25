@@ -20,6 +20,21 @@ def auth_key():
     return 'OMEtD0IktVMJDjwN22NGTRjzOjh0MMkEOIM4L42DjyGQTUyM'
 
 
+@pytest.fixture(scope="session")
+def player_id_1():
+    return '1dd608f2-c6a1-11e3-851d-000c2940e62c'
+
+
+@pytest.fixture(scope="session")
+def player_id_2():
+    return '000c2940-11e3-c6a1-1d85-1dd608f2e62c'
+
+
+@pytest.fixture(scope="session")
+def player_ids_list(player_id_1, player_id_2):
+    return [player_id_1, player_id_2]
+
+
 @pytest.fixture(scope="function")
 def app_client(app_id, app_api_key):
     return OneSignalAppClient(
@@ -32,8 +47,10 @@ def user_client(auth_key):
 
 
 @pytest.fixture(scope="function")
-def device_notification(app_id):
-    return Notification(app_id, Notification.DEVICES_MODE)
+def device_notification(app_id, player_ids_list):
+    notification = Notification(app_id, Notification.DEVICES_MODE)
+    notification.include_player_ids = player_ids_list
+    return notification
 
 
 @pytest.fixture(scope="function")
