@@ -60,6 +60,9 @@ List of API methods to be covered by our client.
             - ```big_picture```
             - ```adm_big_picture```
             - ```chrome_big_picture```
+        - Appearance
+            - ~~```ios_badgeType```~~
+            - ~~```ios_badgeCount```~~
         - _Others coming soon_
     - Export data for request
 - [A] Cancel notification

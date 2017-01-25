@@ -76,3 +76,20 @@ class TestNotification:
     def test_set_headings_without_default_language(self, device_notification):
         with pytest.raises(KeyError):
             device_notification.headings = {'pt': 'Meu título'}
+
+    def test_set_ios_badge_type(self, device_notification):
+        notification = device_notification  # PEP8 workaround
+        notification.ios_badge_type = Notification.IOS_BADGE_TYPE_SETTO
+        assert notification.ios_badge_type == Notification.IOS_BADGE_TYPE_SETTO
+
+    def test_set_invalid_ios_badge_type(self, device_notification):
+        with pytest.raises(TypeError):
+            device_notification.ios_badge_type = 'invalid_type'
+
+    def test_set_ios_badge_count(self, device_notification):
+        device_notification.ios_badge_count = 10
+        assert device_notification.ios_badge_count == 10
+
+    def test_set_invalid_ios_badge_count(self, device_notification):
+        with pytest.raises(ValueError):
+            device_notification.ios_badge_count = 'invalid_count'

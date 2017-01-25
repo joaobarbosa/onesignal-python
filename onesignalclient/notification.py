@@ -9,6 +9,11 @@ class Notification():
     FILTERS_MODE = 'filters'
     DEFAULT_LANGUAGE = 'en'
     NOTIFICATION_MODES = [SEGMENTS_MODE, DEVICES_MODE, FILTERS_MODE]
+    IOS_BADGE_TYPE_NONE = 'None'
+    IOS_BADGE_TYPE_SETTO = 'SetTo'
+    IOS_BADGE_TYPE_INCREASE = 'Increase'
+    IOS_BADGES_TYPES = [
+        IOS_BADGE_TYPE_NONE, IOS_BADGE_TYPE_SETTO, IOS_BADGE_TYPE_INCREASE]
 
     # Mode Settings
     @property
@@ -17,6 +22,9 @@ class Notification():
 
     @mode.setter
     def mode(self, value):
+        if value not in self.NOTIFICATION_MODES:
+            raise ValueError('Unknown operation mode.')
+
         self._mode = value
 
     # Device mode properties
@@ -95,10 +103,27 @@ class Notification():
 
         self._data = json.dumps(value)
 
-    def __init__(self, app_id, mode=SEGMENTS_MODE):
-        if mode not in self.NOTIFICATION_MODES:
-            raise ValueError('Unknown operation mode.')
+    # Common Parameters - Appearance
+    @property
+    def ios_badge_type(self):
+        return self._ios_badge_type
 
+    @ios_badge_type.setter
+    def ios_badge_type(self, value):
+        if value not in self.IOS_BADGES_TYPES:
+            raise TypeError('Unknown badge type.')
+
+        self._ios_badge_type = value
+
+    @property
+    def ios_badge_count(self):
+        return self._ios_badge_count
+
+    @ios_badge_count.setter
+    def ios_badge_count(self, value):
+        self._ios_badge_count = int(value)
+
+    def __init__(self, app_id, mode=SEGMENTS_MODE):
         self.app_id = app_id
         self.mode = mode
 
@@ -106,6 +131,8 @@ class Notification():
         self._include_player_ids = []
 
         # Common defaults
-        self._headings = {'en': 'Default title.'}
-        self._contents = {'en': 'Default message.'}
+        self.headings = {'en': 'Default title.'}
+        self.contents = {'en': 'Default message.'}
         self._data = ''
+        self.ios_badge_type = self.IOS_BADGE_TYPE_NONE
+        self.ios_badge_count = 1
