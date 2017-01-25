@@ -82,6 +82,7 @@ List of API methods to be covered by our client.
 - [A] CSV export
     - ~~Regular export~~
     - Extra fields
+    - Make it available in the user client
 - [U] View notification
 - [A] View notifications
 - Track open
