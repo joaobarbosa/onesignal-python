@@ -63,6 +63,8 @@ List of API methods to be covered by our client.
         - Appearance
             - ~~```ios_badgeType```~~
             - ~~```ios_badgeCount```~~
+            - ~~```small_icon```~~
+            - ~~```large_icon```~~
         - _Others coming soon_
     - Export data for request
 - [A] Cancel notification

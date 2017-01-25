@@ -93,3 +93,11 @@ class TestNotification:
     def test_set_invalid_ios_badge_count(self, device_notification):
         with pytest.raises(ValueError):
             device_notification.ios_badge_count = 'invalid_count'
+
+    def test_set_small_icon(self, device_notification, small_icon):
+        device_notification.small_icon = small_icon
+        assert device_notification.small_icon == small_icon
+
+    def test_set_large_icon(self, device_notification, large_icon):
+        device_notification.large_icon = large_icon
+        assert device_notification.large_icon == large_icon

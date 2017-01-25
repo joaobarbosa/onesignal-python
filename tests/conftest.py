@@ -49,3 +49,13 @@ def dict():
 @pytest.fixture(scope="module")
 def notification_content():
     return {'en': 'Custom message.'}
+
+
+@pytest.fixture(scope="module")
+def small_icon():
+    return 'small_icon_example'
+
+
+@pytest.fixture(scope="module")
+def large_icon():
+    return 'large_icon_example'

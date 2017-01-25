@@ -105,6 +105,22 @@ class Notification():
 
     # Common Parameters - Appearance
     @property
+    def small_icon(self):
+        return self._small_icon
+
+    @small_icon.setter
+    def small_icon(self, value):
+        self._small_icon = str(value)
+
+    @property
+    def large_icon(self):
+        return self._large_icon
+
+    @large_icon.setter
+    def large_icon(self, value):
+        self._large_icon = str(value)
+
+    @property
     def ios_badge_type(self):
         return self._ios_badge_type
 
@@ -134,5 +150,7 @@ class Notification():
         self.headings = {'en': 'Default title.'}
         self.contents = {'en': 'Default message.'}
         self._data = ''
+        self.small_icon = None
+        self.large_icon = None
         self.ios_badge_type = self.IOS_BADGE_TYPE_NONE
         self.ios_badge_count = 1
