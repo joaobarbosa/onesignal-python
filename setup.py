@@ -38,7 +38,10 @@ setup(
         # License
         'License :: OSI Approved :: MIT License',
         # Python versions you support
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
 
     keywords='onesignal client push notifications api',
@@ -56,6 +59,7 @@ setup(
             'pytest==3.0.4',
             'pytest-cov==2.4.0',
             'pytest-pep8==1.0.6',
+            'responses==0.5.1'
         ],
     },
 )
