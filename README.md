@@ -44,10 +44,11 @@ List of API methods to be covered by our client.
             - ~~```app_id```~~
             - ```app_ids```
         - Content
-            - ```contents``` - _started_
+            - ~~```contents```~~
                 - Improve validation
                 - Behaviour when using ```template_id```
-            - ```headings```
+            - ~~```headings```~~
+                - Improve validation
             - ```subtitle```
             - ```template_id```
             - ```content_available```

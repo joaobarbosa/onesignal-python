@@ -62,6 +62,24 @@ class Notification():
 
         self._contents = json.dumps(value)
 
+    @property
+    def headings(self):
+        return json.loads(self._headings)
+
+    @headings.setter
+    def headings(self, value):
+        if isinstance(value, str):
+            value = json.loads(value)
+
+        if not isinstance(value, dict):
+            raise TypeError('Value must be a dict.')
+
+        if not value.get(self.DEFAULT_LANGUAGE, False):
+            raise KeyError('Default language (%s) must be included.' % (
+                self.DEFAULT_LANGUAGE))
+
+        self._headings = json.dumps(value)
+
     # Common Parameters - Attachments
     @property
     def data(self):
@@ -88,5 +106,6 @@ class Notification():
         self._include_player_ids = []
 
         # Common defaults
+        self._headings = {'en': 'Default title.'}
         self._contents = {'en': 'Default message.'}
         self._data = ''

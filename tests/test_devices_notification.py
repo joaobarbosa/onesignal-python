@@ -56,8 +56,23 @@ class TestNotification:
     def test_set_contents_invalid_type(self, device_notification):
         with pytest.raises(TypeError):
             device_notification.contents = 987
-            device_notification.contents = 'invalid json string'
 
     def test_set_contents_without_default_language(self, device_notification):
         with pytest.raises(KeyError):
             device_notification.contents = {'pt': 'Minha mensagem'}
+
+    def test_set_headings(self, device_notification, notification_content):
+        device_notification.headings = notification_content
+        assert device_notification.headings == notification_content
+
+    def test_set_headings_invalid_string(self, device_notification):
+        with pytest.raises(ValueError):
+            device_notification.headings = 'invalid json string'
+
+    def test_set_headings_invalid_type(self, device_notification):
+        with pytest.raises(TypeError):
+            device_notification.headings = 987
+
+    def test_set_headings_without_default_language(self, device_notification):
+        with pytest.raises(KeyError):
+            device_notification.headings = {'pt': 'Meu título'}
