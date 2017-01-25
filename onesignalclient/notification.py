@@ -82,7 +82,7 @@ class Notification():
         if not isinstance(value, dict):
             raise TypeError('Value must be a dict.')
 
-        if not value.get(self.DEFAULT_LANGUAGE, False):
+        if len(value) > 0 and not value.get(self.DEFAULT_LANGUAGE, False):
             raise KeyError('Default language (%s) must be included.' % (
                 self.DEFAULT_LANGUAGE))
 
@@ -110,7 +110,7 @@ class Notification():
 
     @small_icon.setter
     def small_icon(self, value):
-        self._small_icon = str(value)
+        self._small_icon = str(value) if value is not None else None
 
     @property
     def large_icon(self):
@@ -118,7 +118,7 @@ class Notification():
 
     @large_icon.setter
     def large_icon(self, value):
-        self._large_icon = str(value)
+        self._large_icon = str(value) if value is not None else None
 
     @property
     def ios_badge_type(self):
@@ -147,10 +147,45 @@ class Notification():
         self._include_player_ids = []
 
         # Common defaults
-        self.headings = {'en': 'Default title.'}
         self.contents = {'en': 'Default message.'}
-        self._data = ''
+        self.headings = {}
+        self.data = {}
         self.small_icon = None
         self.large_icon = None
         self.ios_badge_type = self.IOS_BADGE_TYPE_NONE
-        self.ios_badge_count = 1
+        self.ios_badge_count = 0
+
+    def get_payload_for_request(self):
+        """
+        Get the JSON data to be sent to /notifications post.
+        """
+        payload = {
+            'app_id': self.app_id,
+            # Should change when template/content_available support be done
+            'contents': self.contents
+        }
+
+        # Mode related settings
+        if self.mode == self.DEVICES_MODE:
+            payload.update({'include_player_ids': self.include_player_ids})
+
+        # Common parameters
+        if len(self.data) > 0:
+            payload.update({'data': self.data})
+
+        if len(self.headings) > 0:
+            payload.update({'headings': self.headings})
+
+        if self.small_icon:
+            payload.update({'small_icon': self.small_icon})
+
+        if self.large_icon:
+            payload.update({'large_icon': self.large_icon})
+
+        if self.ios_badge_count > 0:
+            payload.update({
+                'ios_badgeType': self.ios_badge_type,
+                'ios_badgeCount': self.ios_badge_count
+            })
+
+        return payload
