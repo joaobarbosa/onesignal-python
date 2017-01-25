@@ -17,6 +17,11 @@ class TestAppClient(BaseTest):
         assert 'Authorization' in headers
         assert app_client.app_api_key in headers['Authorization']
 
+    def test_create_notification(self, app_client, device_notification):
+        result = app_client.create_notification(device_notification)
+        assert result.get('id', False)
+        assert result.get('recipients', False)
+
     def test_csv_export(self, app_client):
         csv_link = app_client.csv_export()
         assert csv_link.get('csv_file_url', False)

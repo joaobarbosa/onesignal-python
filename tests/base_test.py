@@ -26,6 +26,11 @@ class BaseTest():
             'uri': re.compile('%s/apps/(\w|\-)+' % (base_url)),
             'status': codes.not_found
         },
+        'test_create_notification': {
+            'method': responses.POST,
+            'uri': '%s/notifications' % (base_url),
+            'body': '{"id": "458dcec4-cf53-11e3-000c940e62c", "recipients": 3}'
+        },
         'test_csv_export': {
             'method': responses.POST,
             'uri': re.compile(
@@ -39,7 +44,7 @@ class BaseTest():
             'status': codes.not_found,
             'uri': re.compile(
                 '%s/players/csv_export\?app_id=(\w|\-)+' % (base_url))
-        }
+        },
     }
 
     def setup_method(self, method):

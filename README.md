@@ -35,9 +35,10 @@ List of API methods to be covered by our client.
 
 **[U]** - requires User Auth | **[A]** - requires App API Key
 
-- [A] Create notification to segments
+- [A] Create notification
     - Segments mode settings & params
     - ~~Devices mode settings & params~~
+        - Improve tests as new params are added
     - Filters mode settings & params
     - Common Parameters
         - App
