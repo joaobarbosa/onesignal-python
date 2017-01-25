@@ -24,8 +24,9 @@ class OneSignalBaseClient():
         :return: Returns dict which contains the headers
         :rtype: dict
         """
-        auth = "Basic %s" % self.auth_key if self.mode == self.MODE_USER \
-            else self.app_api_key
+        auth = "Basic %s" % (
+            self.auth_key if self.mode == self.MODE_USER else self.app_api_key
+        )
 
         headers = {
             "Content-Type": "application/json; charset=utf-8",
