@@ -4,6 +4,11 @@ from .base_client import OneSignalBaseClient
 
 class OneSignalAppClient(OneSignalBaseClient):
     """OneSignal Client."""
+    ENDPOINTS = {
+        'notifications': 'notifications',
+        'csv_export': 'players/csv_export?app_id=%s'
+    }
+
     def __init__(self, app_id, app_api_key):
         """
         Initializes the OneSignal Client.
@@ -26,10 +31,18 @@ class OneSignalAppClient(OneSignalBaseClient):
         """
         return self._get_headers()
 
+    def create_notification(self, notification):
+        """
+        Creates a new notification.
+        """
+        payload = notification.get_payload_for_request()
+        return self.post(self._url(self.ENDPOINTS['notifications']),
+                         payload=payload)
+
     def csv_export(self):
         """
         Request a CSV export from OneSignal.
         :return: Returns the request result.
         """
-        endpoint = 'players/csv_export?app_id=%s' % (self.app_id)
+        endpoint = self.ENDPOINTS['csv_export'] % (self.app_id)
         return self.post(self._url(endpoint))
