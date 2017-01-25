@@ -7,6 +7,7 @@ class Notification():
     SEGMENTS_MODE = 'segments'
     DEVICES_MODE = 'devices'
     FILTERS_MODE = 'filters'
+    DEFAULT_LANGUAGE = 'en'
     NOTIFICATION_MODES = [SEGMENTS_MODE, DEVICES_MODE, FILTERS_MODE]
 
     # Mode Settings
@@ -42,6 +43,25 @@ class Notification():
     def app_id(self, value):
         self._app_id = value
 
+    # Common Parameters - Content & Language
+    @property
+    def contents(self):
+        return json.loads(self._contents)
+
+    @contents.setter
+    def contents(self, value):
+        if isinstance(value, str):
+            value = json.loads(value)
+
+        if not isinstance(value, dict):
+            raise TypeError('Value must be a dict.')
+
+        if not value.get(self.DEFAULT_LANGUAGE, False):
+            raise KeyError('Default language (%s) must be included.' % (
+                self.DEFAULT_LANGUAGE))
+
+        self._contents = json.dumps(value)
+
     # Common Parameters - Attachments
     @property
     def data(self):
@@ -68,4 +88,5 @@ class Notification():
         self._include_player_ids = []
 
         # Common defaults
+        self._contents = {'en': 'Default message.'}
         self._data = ''

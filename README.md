@@ -43,8 +43,17 @@ List of API methods to be covered by our client.
         - App
             - ~~```app_id```~~
             - ```app_ids```
+        - Content
+            - ```contents``` - _started_
+                - Improve validation
+                - Behaviour when using ```template_id```
+            - ```headings```
+            - ```subtitle```
+            - ```template_id```
+            - ```content_available```
+            - ```mutable_content```
         - Attachments
-            - ~~```data```~~~
+            - ~~```data```~~
             - ```url```
             - ```ios_attachments```
             - ```big_picture```
