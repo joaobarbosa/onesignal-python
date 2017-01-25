@@ -109,7 +109,7 @@ class TestNotification:
         device_notification.large_icon = large_icon
         device_notification.ios_badge_count = 1
 
-        payload = json.loads(device_notification.get_payload_for_request())
+        payload = device_notification.get_payload_for_request()
 
         assert payload.get('app_id', False)
         assert payload.get('include_player_ids', False)
