@@ -28,7 +28,7 @@ class OneSignalBaseClient():
             else self.app_api_key
 
         headers = {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json; charset=utf-8",
             "Authorization": auth
         }
         headers.update(custom_headers)
