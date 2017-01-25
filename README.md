@@ -10,7 +10,34 @@ Python client for OneSignal push notification service
 
 ## Usage
 
-*Coming soon...*
+Example, sending push to specific devices (currently, only way supported).
+
+```python
+from requests.exceptions import HTTPError
+from onesignalclient.app_client import OneSignalAppClient
+from onesignalclient.notification import Notification
+
+player_id = 'sample00-play-er00-id00-000000000000'
+os_app_id = 'sample00-app0-id00-0000-000000000000'
+os_apikey = 'your-rest-api-key-goes-here'
+
+# Init the client
+client = OneSignalAppClient(app_id=os_app_id, app_api_key=os_apikey)
+
+# Creates a new notification
+notification = Notification(app_id, Notification.DEVICES_MODE)
+notification.include_player_ids = [player_id]  # Must be a list!
+
+try:
+    # Sends it!
+    result = client.create_notification(notification)
+except HTTPError as e:
+    result = e.response.json()
+
+print(result)
+# Success: {'id': '1d63fa3a-2205-314f-a734-a1de7e27cc2a', 'recipients': 1}
+# Error:   {'errors': ['Invalid app_id format']} - or any other message
+```
 
 ## Requirements
 
