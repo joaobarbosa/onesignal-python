@@ -54,12 +54,18 @@ def device_notification(app_id, player_ids_list):
 
 
 @pytest.fixture(scope="function")
+def sample_notification(app_id):
+    notification = Notification(app_id)
+    return notification
+
+
+@pytest.fixture(scope="function")
 def segment_notification(app_id):
     return Notification(app_id, Notification.SEGMENTS_MODE)
 
 
 @pytest.fixture(scope="session")
-def dict():
+def sample_dict():
     return {'json': 'serializable'}
 
 
