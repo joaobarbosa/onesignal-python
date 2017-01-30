@@ -10,19 +10,19 @@ base_url = 'https://onesignal.com/api/v1'
 class BaseTest():
     default_uri = re.compile('%s/(\w+)' % (base_url))
     requests_mock = {
-        'test_get_apps': {
+        'test_view_apps': {
             'uri': '%s/apps' % (base_url),
             'body': '[{"id": "92911750-242d-4260-9e00-9d9034f139ce"}]'
         },
-        'test_get_apps_bad_request': {
+        'test_view_apps_bad_request': {
             'uri': '%s/apps' % (base_url),
             'status': codes.bad_request
         },
-        'test_get_app': {
+        'test_view_app': {
             'uri': re.compile('%s/apps/(\w|\-)+' % (base_url)),
             'body': '{"id": "92911750-242d-4260-9e00-9d9034f139ce"}'
         },
-        'test_get_app_not_found': {
+        'test_view_app_not_found': {
             'uri': re.compile('%s/apps/(\w|\-)+' % (base_url)),
             'status': codes.not_found
         },

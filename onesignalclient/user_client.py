@@ -22,9 +22,9 @@ class OneSignalUserClient(OneSignalBaseClient):
         """
         return self._get_headers()
 
-    def get_apps(self):
+    def view_apps(self):
         return self.get(self._url('apps'))
 
-    def get_app(self, app_id):
+    def view_app(self, app_id):
         endpoint = 'apps/%s' % (app_id)
         return self.get(self._url(endpoint))
