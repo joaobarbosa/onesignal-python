@@ -34,6 +34,11 @@ class TestAppClient(BaseTest):
         csv_link = app_client.csv_export()
         assert csv_link.get('csv_file_url', False)
 
+    def test_csv_export_with_extra_fields(self, app_client):
+        csv_link = app_client.csv_export(
+            extra_fields=['location', 'country', 'rooted'])
+        assert csv_link.get('csv_file_url', False)
+
     def test_csv_export_not_found(self, app_client):
         with pytest.raises(HTTPError):
             app_client.csv_export()

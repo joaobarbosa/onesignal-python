@@ -52,6 +52,14 @@ class BaseTest():
                     '966-d8cc-11e4-bed1-df8f05be55ba/users_184948440ec0e334728'
                     'e87228011ff41_2015-11-10.csv.gz"}'
         },
+        'test_csv_export_with_extra_fields': {
+            'method': responses.POST,
+            'uri': re.compile(
+                '%s/players/csv_export\?app_id=(\w|\-)+' % (base_url)),
+            'body': '{"csv_file_url": "https://onesignal.com/csv_exports/b2f7f'
+                    '966-d8cc-11e4-bed1-df8f05be55ba/users_184948440ec0e334728'
+                    'e87228011ff41_2015-11-10.csv.gz"}'
+        },
         'test_csv_export_not_found': {
             'method': responses.POST,
             'status': codes.not_found,

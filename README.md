@@ -128,7 +128,7 @@ List of API methods to be covered by our client.
 - Increment session length
 - [A] CSV export
     - ~~Regular export~~
-    - Extra fields
+    - ~~Extra fields~~
     - Make it available in the user client
 - [U] View notification
 - [A] View notifications

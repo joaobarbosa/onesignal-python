@@ -10,6 +10,8 @@ class OneSignalAppClient(OneSignalBaseClient):
         'csv_export': 'players/csv_export?app_id=%s'
     }
 
+    AVAILABLE_EXTRA_FIELDS = ['location', 'country', 'rooted']
+
     def __init__(self, app_id, app_api_key):
         """
         Initializes the OneSignal Client.
@@ -50,10 +52,17 @@ class OneSignalAppClient(OneSignalBaseClient):
                                                             self.app_id)
         return self.delete(self._url(endpoint))
 
-    def csv_export(self):
+    def csv_export(self, extra_fields=[]):
         """
         Request a CSV export from OneSignal.
         :return: Returns the request result.
         """
+        payload = {'extra_fields': []}
+
+        if isinstance(extra_fields, list) and len(extra_fields) > 0:
+            payload['extra_fields'] = [
+                x for x in extra_fields if x in self.AVAILABLE_EXTRA_FIELDS
+            ]
+
         endpoint = self.ENDPOINTS['csv_export'] % (self.app_id)
-        return self.post(self._url(endpoint))
+        return self.post(self._url(endpoint), payload=payload)
