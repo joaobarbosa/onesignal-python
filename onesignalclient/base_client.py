@@ -64,3 +64,18 @@ class OneSignalBaseClient():
         request = requests.post(url, data=json_payload, headers=final_headers)
         request.raise_for_status()
         return request.json()
+
+    def delete(self, url, headers={}):
+        """
+        Perform a DELETE request.
+
+        :param url: URL to send the request.
+        :param headers: dict with headers to be used in the request.
+        :return: Returns json response
+        :rtype: dict or list
+        :raises requests.exceptions.HTTPError: if status code is not 2xx
+        """
+        final_headers = self._get_headers(custom_headers=headers)
+        request = requests.delete(url, headers=final_headers)
+        request.raise_for_status()
+        return request.json()
