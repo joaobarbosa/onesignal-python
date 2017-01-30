@@ -22,6 +22,14 @@ class TestAppClient(BaseTest):
         assert result.get('id', False)
         assert result.get('recipients', False)
 
+    def test_cancel_notification(self, app_client, notification_id):
+        result = app_client.cancel_notification(notification_id)
+        assert result.get('success', False)
+
+    def test_failed_cancel_notification(self, app_client, notification_id):
+        with pytest.raises(HTTPError):
+            app_client.cancel_notification(notification_id)
+
     def test_csv_export(self, app_client):
         csv_link = app_client.csv_export()
         assert csv_link.get('csv_file_url', False)

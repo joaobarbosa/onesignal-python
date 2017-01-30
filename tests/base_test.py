@@ -31,6 +31,19 @@ class BaseTest():
             'uri': '%s/notifications' % (base_url),
             'body': '{"id": "458dcec4-cf53-11e3-000c940e62c", "recipients": 3}'
         },
+        'test_cancel_notification': {
+            'method': responses.DELETE,
+            'uri': re.compile(
+                '%s/notifications/(\w|\-)+\?app_id=(\w|\-)+' % (base_url)),
+            'body': '{"success": "true"}'
+        },
+        'test_failed_cancel_notification': {
+            'method': responses.DELETE,
+            'status': codes.bad_request,
+            'uri': re.compile(
+                '%s/notifications/(\w|\-)+\?app_id=(\w|\-)+' % (base_url)),
+            'body': '{"errors": ["..."]}'
+        },
         'test_csv_export': {
             'method': responses.POST,
             'uri': re.compile(

@@ -7,7 +7,7 @@ from onesignalclient.notification import Notification
 
 @pytest.fixture(scope="session")
 def app_id():
-    return 'e6d73965-8ee6-410c-5e33-4c0cef331557'
+    return 'e6d73965-8ee6-410c-5e33-4c0cef33155t7'
 
 
 @pytest.fixture(scope="session")
@@ -76,3 +76,8 @@ def small_icon():
 @pytest.fixture(scope="session")
 def large_icon():
     return 'large_icon_example'
+
+
+@pytest.fixture(scope="session")
+def notification_id():
+    return '1d60d8f2-1e31-856a-1d1c-00c040e62c29'
