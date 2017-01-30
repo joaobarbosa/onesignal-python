@@ -95,7 +95,7 @@ List of API methods to be covered by our client.
             - ~~```large_icon```~~
         - _Others coming soon_
     - Export data for request
-- [A] Cancel notification
+- ~~[A] Cancel notification~~
 - ~~[U] View apps~~
 - ~~[U] View an app~~
 - [U] Create an app

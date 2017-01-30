@@ -6,6 +6,7 @@ class OneSignalAppClient(OneSignalBaseClient):
     """OneSignal Client."""
     ENDPOINTS = {
         'notifications': 'notifications',
+        'cancel_notification': 'notifications/%s?app_id=%s',
         'csv_export': 'players/csv_export?app_id=%s'
     }
 
@@ -39,6 +40,15 @@ class OneSignalAppClient(OneSignalBaseClient):
         payload = notification.get_payload_for_request()
         return self.post(self._url(self.ENDPOINTS['notifications']),
                          payload=payload)
+
+    def cancel_notification(self, notification_id):
+        """
+        Cancel a notification.
+        :param notification_id: Notification identifier
+        """
+        endpoint = self.ENDPOINTS['cancel_notification'] % (notification_id,
+                                                            self.app_id)
+        return self.delete(self._url(endpoint))
 
     def csv_export(self):
         """
