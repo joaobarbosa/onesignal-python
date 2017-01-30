@@ -13,7 +13,8 @@ class Notification():
     IOS_BADGE_TYPE_SETTO = 'SetTo'
     IOS_BADGE_TYPE_INCREASE = 'Increase'
     IOS_BADGES_TYPES = [
-        IOS_BADGE_TYPE_NONE, IOS_BADGE_TYPE_SETTO, IOS_BADGE_TYPE_INCREASE]
+        IOS_BADGE_TYPE_NONE, IOS_BADGE_TYPE_SETTO, IOS_BADGE_TYPE_INCREASE
+    ]
 
     # Mode Settings
     @property
@@ -58,16 +59,7 @@ class Notification():
 
     @contents.setter
     def contents(self, value):
-        if isinstance(value, str):
-            value = json.loads(value)
-
-        if not isinstance(value, dict):
-            raise TypeError('Value must be a dict.')
-
-        if not value.get(self.DEFAULT_LANGUAGE, False):
-            raise KeyError('Default language (%s) must be included.' % (
-                self.DEFAULT_LANGUAGE))
-
+        self._validate_content_dict(value)
         self._contents = json.dumps(value)
 
     @property
@@ -76,17 +68,17 @@ class Notification():
 
     @headings.setter
     def headings(self, value):
-        if isinstance(value, str):
-            value = json.loads(value)
-
-        if not isinstance(value, dict):
-            raise TypeError('Value must be a dict.')
-
-        if len(value) > 0 and not value.get(self.DEFAULT_LANGUAGE, False):
-            raise KeyError('Default language (%s) must be included.' % (
-                self.DEFAULT_LANGUAGE))
-
+        self._validate_content_dict(value)
         self._headings = json.dumps(value)
+
+    @property
+    def subtitle(self):
+        return json.loads(self._subtitle)
+
+    @subtitle.setter
+    def subtitle(self, value):
+        self._validate_content_dict(value)
+        self._subtitle = json.dumps(value)
 
     # Common Parameters - Attachments
     @property
@@ -155,6 +147,23 @@ class Notification():
         self.ios_badge_type = self.IOS_BADGE_TYPE_NONE
         self.ios_badge_count = 0
 
+    def _validate_content_dict(self, value):
+        """
+        Validates dicts used for content properties.
+        Ex: headings, subtitle, contents.
+        """
+        if isinstance(value, str):
+            value = json.loads(value)
+
+        if not isinstance(value, dict):
+            raise TypeError('Value must be a dict.')
+
+        if len(value) > 0 and not value.get(self.DEFAULT_LANGUAGE, False):
+            raise KeyError('Default language (%s) must be included.' % (
+                self.DEFAULT_LANGUAGE))
+
+        return True
+
     def get_payload_for_request(self):
         """
         Get the JSON data to be sent to /notifications post.
@@ -175,6 +184,9 @@ class Notification():
 
         if len(self.headings) > 0:
             payload.update({'headings': self.headings})
+
+        if len(self.subtitle) > 0:
+            payload.update({'subtitle': self.subtitle})
 
         if self.small_icon:
             payload.update({'small_icon': self.small_icon})
