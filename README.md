@@ -87,10 +87,31 @@ List of API methods to be covered by our client.
             - ```adm_big_picture```
             - ```chrome_big_picture```
         - Appearance
-            - ~~```ios_badgeType```~~
-            - ~~```ios_badgeCount```~~
+            - ```android_background_layout```
             - ~~```small_icon```~~
             - ~~```large_icon```~~
+            - ```chrome_web_icon```
+            - ```firefox_icon```
+            - ```adm_small_icon```
+            - ```adm_large_icon```
+            - ```chrome_icon```
+            - ```ios_sound```
+            - ```android_sound```
+            - ```adm_sound```
+            - ```wp_sound```
+            - ```wp_wns_sound```
+            - ```android_led_color```
+            - ```android_accent_color```
+            - ```android_visibility```
+            - ~~```ios_badgeType```~~
+            - ~~```ios_badgeCount```~~
+            - ```collapse_id```
+        - Delivery
+            - ```send_after```
+            - ```delayed_option```
+            - ```delivery_time_of_day```
+            - ```ttl```
+            - ```priority```
         - _Others coming soon_
     - Export data for request
 - ~~[A] Cancel notification~~
