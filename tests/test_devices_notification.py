@@ -25,6 +25,7 @@ class TestDeviceNotification:
                                      large_icon):
         device_notification.data = {'sample': 'data'}
         device_notification.headings = {'en': 'Sample Heading'}
+        device_notification.subtitle = {'en': 'Sample subtitle'}
         device_notification.small_icon = small_icon
         device_notification.large_icon = large_icon
         device_notification.ios_badge_count = 1
@@ -36,6 +37,7 @@ class TestDeviceNotification:
         assert payload.get('data', False)
         assert payload.get('contents', False)
         assert payload.get('headings', False)
+        assert payload.get('subtitle', False)
         assert payload.get('small_icon', False)
         assert payload.get('large_icon', False)
         assert payload.get('ios_badgeType', False)

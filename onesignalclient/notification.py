@@ -141,6 +141,7 @@ class Notification():
         # Common defaults
         self.contents = {'en': 'Default message.'}
         self.headings = {}
+        self.subtitle = {}
         self.data = {}
         self.small_icon = None
         self.large_icon = None

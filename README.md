@@ -73,11 +73,9 @@ List of API methods to be covered by our client.
             - ```app_ids```
         - Content
             - ~~```contents```~~
-                - Improve validation
                 - Behaviour when using ```template_id```
             - ~~```headings```~~
-                - Improve validation
-            - ```subtitle```
+            - ~~```subtitle```~~
             - ```template_id```
             - ```content_available```
             - ```mutable_content```
