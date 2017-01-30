@@ -34,6 +34,7 @@ class OneSignalAppClient(OneSignalBaseClient):
     def create_notification(self, notification):
         """
         Creates a new notification.
+        :param notification: onesignalclient.notification.Notification object
         """
         payload = notification.get_payload_for_request()
         return self.post(self._url(self.ENDPOINTS['notifications']),
