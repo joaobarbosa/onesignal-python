@@ -26,6 +26,14 @@ class BaseTest():
             'uri': re.compile('%s/apps/(\w|\-)+' % (base_url)),
             'status': codes.not_found
         },
+        'test_view_device': {
+            'uri': re.compile('%s/players/(\w|\-)+' % (base_url)),
+            'body': '{"identifier": "ce777617da7f548fe7a9ab6febb56cf39fba6d2"}'
+        },
+        'test_view_device_not_found': {
+            'uri': re.compile('%s/players/(\w|\-)+' % (base_url)),
+            'status': codes.not_found
+        },
         'test_create_notification': {
             'method': responses.POST,
             'uri': '%s/notifications' % (base_url),

@@ -30,3 +30,11 @@ class TestUserClient(BaseTest):
     def test_view_app_not_found(self, user_client, app_id):
         with pytest.raises(HTTPError):
             user_client.view_app(app_id)
+
+    def test_view_device(self, user_client, player_id_1, app_id):
+        device = user_client.view_device(player_id_1, app_id)
+        assert device.get('identifier', False)
+
+    def test_view_device_not_found(self, user_client, player_id_1, app_id):
+        with pytest.raises(HTTPError):
+            user_client.view_device(player_id_1, app_id)

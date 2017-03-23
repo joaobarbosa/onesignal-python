@@ -120,7 +120,7 @@ List of API methods to be covered by our client.
 - [U] Create an app
 - [U] Update an app
 - [A] View devices
-- View device
+- ~~View device~~
 - [U] Add a device
 - Edit device
 - [U] New session
