@@ -63,6 +63,14 @@ class Notification():
         self._contents = json.dumps(value)
 
     @property
+    def content_available(self):
+        return self._content_available
+
+    @content_available.setter
+    def content_available(self, value):
+        self._content_available = value
+
+    @property
     def headings(self):
         return json.loads(self._headings)
 
@@ -140,6 +148,7 @@ class Notification():
 
         # Common defaults
         self.contents = {'en': 'Default message.'}
+        self.content_available = False
         self.headings = {}
         self.subtitle = {}
         self.data = {}
@@ -172,7 +181,8 @@ class Notification():
         payload = {
             'app_id': self.app_id,
             # Should change when template/content_available support be done
-            'contents': self.contents
+            'contents': self.contents,
+            'content_available': self.content_available
         }
 
         # Mode related settings
