@@ -28,3 +28,7 @@ class OneSignalUserClient(OneSignalBaseClient):
     def view_app(self, app_id):
         endpoint = 'apps/%s' % (app_id)
         return self.get(self._url(endpoint))
+
+    def view_device(self, player_id, app_id):
+        endpoint = 'players/%s?%s' % (player_id, app_id)
+        return self.get(self._url(endpoint))
