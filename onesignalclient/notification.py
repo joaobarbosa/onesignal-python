@@ -97,24 +97,21 @@ class Notification():
 
     @contents.setter
     def contents(self, value):
-        if isinstance(value, str):
-            value = json.loads(value)
-
-        if not isinstance(value, dict):
-            raise TypeError('Value must be a dict.')
-
-        if not value.get(self.DEFAULT_LANGUAGE, False):
-            raise KeyError('Default language (%s) must be included.' % (
-                self.DEFAULT_LANGUAGE))
-
-        self._contents = json.dumps(value)
-
+        self._contents = json.dumps(self._validate_content_dict(value))
+    
     @property
-    def headings(self):
-        return json.loads(self._headings)
+    def content_available(self):
+        return self._content_available
 
-    @headings.setter
-    def headings(self, value):
+    @content_available.setter
+    def content_available(self, value):
+        self._content_available = value
+    
+    def _validate_content_dict(self, value):
+        """
+        Validates dicts used for content properties.
+        Ex: headings, subtitle, contents.
+        """
         if isinstance(value, str):
             value = json.loads(value)
 
@@ -125,7 +122,24 @@ class Notification():
             raise KeyError('Default language (%s) must be included.' % (
                 self.DEFAULT_LANGUAGE))
 
-        self._headings = json.dumps(value)
+        return value
+
+    @property
+    def headings(self):
+        return json.loads(self._headings)
+
+    @headings.setter
+    def headings(self, value):
+        self._headings = self._validate_content_dict(value)
+    
+    @property
+    def subtitle(self):
+        return json.loads(self._subtitle)
+
+    @subtitle.setter
+    def subtitle(self, value):
+        self._validate_content_dict(value)
+        self._subtitle = json.dumps(value)
 
     # Common Parameters - Attachments
     @property
@@ -188,7 +202,9 @@ class Notification():
 
         # Common defaults
         self.contents = {'en': 'Default message.'}
+        self.content_available = False
         self.headings = {}
+        self.subtitle = {}
         self.data = {}
         self.small_icon = None
         self.large_icon = None
