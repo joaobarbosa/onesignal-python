@@ -37,6 +37,11 @@ class Notification():
 
     @include_player_ids.setter
     def include_player_ids(self, value):
+        """
+        Usage should be:
+            notification.include_player_ids = ['player_id_1', 'player_id_2', ...]
+        """
+
         if self.mode != self.DEVICES_MODE:
             raise TypeError('Mode should be set to device.')
 
@@ -49,29 +54,32 @@ class Notification():
     def include_segments(self):
         return self._include_segments
 
-    @include_segments.setter
-    def include_segments(self, value):
-        """
-        Usage should be:
-            notification.include_segments = [Notification.SEGMENT_ALL]
-        """
+    def _validate_include_segments(self, value):
         if self.mode != self.SEGMENTS_MODE:
             raise TypeError('Mode should be set to segment.')
 
         if not isinstance(value, list):
             raise TypeError('Value must be a list.')
         
-        if len(value) > 3:
-            raise TypeError('Invalid segment count! Segments available: SEGMENT_ALL, SEGMENT_ACTIVE_USERS, SEGMENT_INACTIVE_USERS')
+        if len(value) > len(self.SEGMENTS):
+            raise TypeError('Invalid segment count!')
         else:
             for item in value:
                 if not isinstance(item, str):
                     raise TypeError('A segment should be str!')
                 if item not in self.SEGMENTS:
-                    # You should use at least one of the declared segments
-                    raise TypeError('Invalid segment added! Segments available: SEGMENT_ALL, SEGMENT_ACTIVE_USERS, SEGMENT_INACTIVE_USERS')
+                    raise TypeError('Invalid segment added! You should use at least one of the declared segments')
+        
+        return value
 
-        self._include_segments = value
+    @include_segments.setter
+    def include_segments(self, value):
+        """
+        Usage should be:
+            notification.include_segments = [Notification.SEGMENT_ALL]
+        """
+
+        self._include_segments = self._validate_include_segments(value)
 
     # Common Parameters - App
     @property
