@@ -49,7 +49,7 @@ setup(
 
     # Requirements - https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'requests==2.12.1',
+        'requests>=2.13,<3.0',
     ],
 
     # List additional groups of dependencies here - pip install -e .[dev,test]
