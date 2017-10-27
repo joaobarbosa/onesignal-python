@@ -16,8 +16,7 @@ class Notification():
     IOS_BADGE_TYPE_NONE = 'None'
     IOS_BADGE_TYPE_SETTO = 'SetTo'
     IOS_BADGE_TYPE_INCREASE = 'Increase'
-    IOS_BADGES_TYPES = [
-        IOS_BADGE_TYPE_NONE, IOS_BADGE_TYPE_SETTO, IOS_BADGE_TYPE_INCREASE]
+    IOS_BADGES_TYPES = [IOS_BADGE_TYPE_NONE, IOS_BADGE_TYPE_SETTO, IOS_BADGE_TYPE_INCREASE]
 
     # Mode Settings
     @property
@@ -50,9 +49,12 @@ class Notification():
     def include_segments(self):
         return self._include_segments
 
-    # notification.include_segments = [Notification.SEGMENT_ALL]    
     @include_segments.setter
     def include_segments(self, value):
+        """
+        Usage should be:
+            notification.include_segments = [Notification.SEGMENT_ALL]
+        """
         if self.mode != self.SEGMENTS_MODE:
             raise TypeError('Mode should be set to segment.')
 
@@ -63,7 +65,7 @@ class Notification():
             raise TypeError('Invalid segment count! Segments available: SEGMENT_ALL, SEGMENT_ACTIVE_USERS, SEGMENT_INACTIVE_USERS')
         else:
             for item in value:
-                if item not isinstance(value, str):
+                if not isinstance(item, str):
                     raise TypeError('A segment should be str!')
                 if item not in self.SEGMENTS:
                     # You should use at least one of the declared segments
@@ -219,7 +221,5 @@ class Notification():
                 'ios_badgeType': self.ios_badge_type,
                 'ios_badgeCount': self.ios_badge_count
             })
-
-        # print('Sending payload as:', payload)
 
         return payload
