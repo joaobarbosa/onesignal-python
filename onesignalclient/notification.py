@@ -142,6 +142,7 @@ class Notification():
         self.contents = {'en': 'Default message.'}
         self.headings = {}
         self.subtitle = {}
+        self.url = None
         self.data = {}
         self.small_icon = None
         self.large_icon = None
@@ -174,7 +175,7 @@ class Notification():
             # Should change when template/content_available support be done
             'contents': self.contents
         }
-
+        
         # Mode related settings
         if self.mode == self.DEVICES_MODE:
             payload.update({'include_player_ids': self.include_player_ids})
@@ -188,6 +189,9 @@ class Notification():
 
         if len(self.subtitle) > 0:
             payload.update({'subtitle': self.subtitle})
+
+        if self.url:
+            payload.update({'url': self.url})
 
         if self.small_icon:
             payload.update({'small_icon': self.small_icon})
