@@ -142,6 +142,7 @@ class Notification():
         self.contents = {'en': 'Default message.'}
         self.headings = {}
         self.subtitle = {}
+        self.send_after = None
         self.url = None
         self.data = {}
         self.small_icon = None
@@ -189,6 +190,9 @@ class Notification():
 
         if len(self.subtitle) > 0:
             payload.update({'subtitle': self.subtitle})
+
+        if self.send_after:
+            payload.update({'send_after': self.send_after})
 
         if self.url:
             payload.update({'url': self.url})
