@@ -151,6 +151,8 @@ class Notification():
         self.content_available = False
         self.headings = {}
         self.subtitle = {}
+        self.send_after = None
+        self.url = None
         self.data = {}
         self.small_icon = None
         self.large_icon = None
@@ -184,7 +186,7 @@ class Notification():
             'contents': self.contents,
             'content_available': self.content_available
         }
-
+        
         # Mode related settings
         if self.mode == self.DEVICES_MODE:
             payload.update({'include_player_ids': self.include_player_ids})
@@ -198,6 +200,12 @@ class Notification():
 
         if len(self.subtitle) > 0:
             payload.update({'subtitle': self.subtitle})
+
+        if self.send_after:
+            payload.update({'send_after': self.send_after})
+
+        if self.url:
+            payload.update({'url': self.url})
 
         if self.small_icon:
             payload.update({'small_icon': self.small_icon})
