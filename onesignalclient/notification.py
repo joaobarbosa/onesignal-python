@@ -174,7 +174,8 @@ class Notification():
         payload = {
             'app_id': self.app_id,
             # Should change when template/content_available support be done
-            'contents': self.contents
+            'contents': self.contents,
+            'android_accent_color': 'FFE42D1F',
         }
         
         # Mode related settings
