@@ -149,6 +149,7 @@ class Notification():
         self.large_icon = None
         self.ios_badge_type = self.IOS_BADGE_TYPE_NONE
         self.ios_badge_count = 0
+        self.image = None
 
     def _validate_content_dict(self, value):
         """
@@ -203,6 +204,15 @@ class Notification():
 
         if self.large_icon:
             payload.update({'large_icon': self.large_icon})
+
+        if self.image:
+            payload.update({
+                'mutable_content': True,
+                'ios_attachments': {
+                    'id': self.image
+                },
+                'big_picture': self.image
+            })
 
         if self.ios_badge_count > 0:
             payload.update({
