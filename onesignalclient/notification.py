@@ -175,14 +175,13 @@ class Notification():
             # Should change when template/content_available support be done
             'contents': self.contents
         }
-        
+
         # Mode related settings
         if self.mode == self.DEVICES_MODE:
             payload.update({'include_player_ids': self.include_player_ids})
 
         # Common parameters
-        if len(self.data) > 0:
-            payload.update({'data': self.data})
+        payload.update({'data': self.data})
 
         if len(self.headings) > 0:
             payload.update({'headings': self.headings})
