@@ -142,12 +142,14 @@ class Notification():
         self.contents = {'en': 'Default message.'}
         self.headings = {}
         self.subtitle = {}
+        self.send_after = None
         self.url = None
         self.data = {}
         self.small_icon = None
         self.large_icon = None
         self.ios_badge_type = self.IOS_BADGE_TYPE_NONE
         self.ios_badge_count = 0
+        self.image = None
 
     def _validate_content_dict(self, value):
         """
@@ -173,9 +175,10 @@ class Notification():
         payload = {
             'app_id': self.app_id,
             # Should change when template/content_available support be done
-            'contents': self.contents
+            'contents': self.contents,
+            'android_accent_color': 'FFE42D1F',
         }
-
+        
         # Mode related settings
         if self.mode == self.DEVICES_MODE:
             payload.update({'include_player_ids': self.include_player_ids})
@@ -189,6 +192,9 @@ class Notification():
         if len(self.subtitle) > 0:
             payload.update({'subtitle': self.subtitle})
 
+        if self.send_after:
+            payload.update({'send_after': self.send_after})
+
         if self.url:
             payload.update({'url': self.url})
 
@@ -197,6 +203,15 @@ class Notification():
 
         if self.large_icon:
             payload.update({'large_icon': self.large_icon})
+
+        if self.image:
+            payload.update({
+                'mutable_content': True,
+                'ios_attachments': {
+                    'id': self.image
+                },
+                'big_picture': self.image
+            })
 
         if self.ios_badge_count > 0:
             payload.update({
