@@ -12,6 +12,30 @@ class TestNotification:
         with pytest.raises(ValueError):
             Notification(app_id, 'unknown')
 
+    def test_notification_segments_mode(self, app_id):
+        n = Notification(app_id)
+        assert n.mode == Notification.SEGMENTS_MODE
+        with pytest.raises(TypeError):
+            n.include_player_ids = ['player_id']
+
+    def test_notification_include_segments_size(self, app_id):
+        n = Notification(app_id)
+        assert n.mode == Notification.SEGMENTS_MODE
+        with pytest.raises(TypeError):
+            n.include_segments = Notification.SEGMENTS.append('Invalid Segment')
+    
+    def test_notification_include_segments_type(self, app_id):
+        n = Notification(app_id)
+        assert n.mode == Notification.SEGMENTS_MODE
+        with pytest.raises(TypeError):
+            n.include_segments = {"segment": "All"}
+    
+    def test_notification_include_segments_item_type(self, app_id):
+        n = Notification(app_id)
+        assert n.mode == Notification.SEGMENTS_MODE
+        with pytest.raises(TypeError):
+            n.include_segments = [1]
+
     def test_validate_content_dict(self, sample_notification,
                                    notification_content):
         assert sample_notification._validate_content_dict(notification_content)

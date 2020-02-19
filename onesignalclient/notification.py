@@ -7,14 +7,16 @@ class Notification():
     SEGMENTS_MODE = 'segments'
     DEVICES_MODE = 'devices'
     FILTERS_MODE = 'filters'
+    SEGMENT_ALL = 'All'
+    SEGMENT_ACTIVE_USERS = 'Active Users'
+    SEGMENT_INACTIVE_USERS = 'Inactive Users'
+    SEGMENTS = [SEGMENT_ALL, SEGMENT_ACTIVE_USERS, SEGMENT_INACTIVE_USERS]
     DEFAULT_LANGUAGE = 'en'
     NOTIFICATION_MODES = [SEGMENTS_MODE, DEVICES_MODE, FILTERS_MODE]
     IOS_BADGE_TYPE_NONE = 'None'
     IOS_BADGE_TYPE_SETTO = 'SetTo'
     IOS_BADGE_TYPE_INCREASE = 'Increase'
-    IOS_BADGES_TYPES = [
-        IOS_BADGE_TYPE_NONE, IOS_BADGE_TYPE_SETTO, IOS_BADGE_TYPE_INCREASE
-    ]
+    IOS_BADGES_TYPES = [IOS_BADGE_TYPE_NONE, IOS_BADGE_TYPE_SETTO, IOS_BADGE_TYPE_INCREASE]
 
     # Mode Settings
     @property
@@ -35,6 +37,11 @@ class Notification():
 
     @include_player_ids.setter
     def include_player_ids(self, value):
+        """
+        Usage should be:
+            notification.include_player_ids = ['player_id_1', 'player_id_2', ...]
+        """
+
         if self.mode != self.DEVICES_MODE:
             raise TypeError('Mode should be set to device.')
 
@@ -42,6 +49,37 @@ class Notification():
             raise TypeError('Value must be a list.')
 
         self._include_player_ids = value
+
+    @property
+    def include_segments(self):
+        return self._include_segments
+
+    def _validate_include_segments(self, value):
+        if self.mode != self.SEGMENTS_MODE:
+            raise TypeError('Mode should be set to segment.')
+
+        if not isinstance(value, list):
+            raise TypeError('Value must be a list.')
+        
+        if len(value) > len(self.SEGMENTS):
+            raise TypeError('Invalid segment count!')
+        else:
+            for item in value:
+                if not isinstance(item, str):
+                    raise TypeError('A segment should be str!')
+                if item not in self.SEGMENTS:
+                    raise TypeError('Invalid segment added! You should use at least one of the declared segments')
+        
+        return value
+
+    @include_segments.setter
+    def include_segments(self, value):
+        """
+        Usage should be:
+            notification.include_segments = [Notification.SEGMENT_ALL]
+        """
+
+        self._include_segments = self._validate_include_segments(value)
 
     # Common Parameters - App
     @property
@@ -59,9 +97,8 @@ class Notification():
 
     @contents.setter
     def contents(self, value):
-        self._validate_content_dict(value)
-        self._contents = json.dumps(value)
-
+        self._contents = json.dumps(self._validate_content_dict(value))
+    
     @property
     def content_available(self):
         return self._content_available
@@ -69,6 +106,23 @@ class Notification():
     @content_available.setter
     def content_available(self, value):
         self._content_available = value
+    
+    def _validate_content_dict(self, value):
+        """
+        Validates dicts used for content properties.
+        Ex: headings, subtitle, contents.
+        """
+        if isinstance(value, str):
+            value = json.loads(value)
+
+        if not isinstance(value, dict):
+            raise TypeError('Value must be a dict.')
+
+        if len(value) > 0 and not value.get(self.DEFAULT_LANGUAGE, False):
+            raise KeyError('Default language (%s) must be included.' % (
+                self.DEFAULT_LANGUAGE))
+
+        return value
 
     @property
     def headings(self):
@@ -76,9 +130,8 @@ class Notification():
 
     @headings.setter
     def headings(self, value):
-        self._validate_content_dict(value)
-        self._headings = json.dumps(value)
-
+        self._headings = self._validate_content_dict(value)
+    
     @property
     def subtitle(self):
         return json.loads(self._subtitle)
@@ -145,6 +198,7 @@ class Notification():
 
         # Device defaults
         self._include_player_ids = []
+        self._include_segments = []
 
         # Common defaults
         self.contents = {'en': 'Default message.'}
@@ -157,23 +211,6 @@ class Notification():
         self.ios_badge_type = self.IOS_BADGE_TYPE_NONE
         self.ios_badge_count = 0
 
-    def _validate_content_dict(self, value):
-        """
-        Validates dicts used for content properties.
-        Ex: headings, subtitle, contents.
-        """
-        if isinstance(value, str):
-            value = json.loads(value)
-
-        if not isinstance(value, dict):
-            raise TypeError('Value must be a dict.')
-
-        if len(value) > 0 and not value.get(self.DEFAULT_LANGUAGE, False):
-            raise KeyError('Default language (%s) must be included.' % (
-                self.DEFAULT_LANGUAGE))
-
-        return True
-
     def get_payload_for_request(self):
         """
         Get the JSON data to be sent to /notifications post.
@@ -181,13 +218,14 @@ class Notification():
         payload = {
             'app_id': self.app_id,
             # Should change when template/content_available support be done
-            'contents': self.contents,
-            'content_available': self.content_available
+            'contents': self.contents
         }
 
         # Mode related settings
         if self.mode == self.DEVICES_MODE:
             payload.update({'include_player_ids': self.include_player_ids})
+        elif self.mode == self.SEGMENTS_MODE:
+            payload.update({'included_segments': self.include_segments})
 
         # Common parameters
         if len(self.data) > 0:
@@ -195,9 +233,6 @@ class Notification():
 
         if len(self.headings) > 0:
             payload.update({'headings': self.headings})
-
-        if len(self.subtitle) > 0:
-            payload.update({'subtitle': self.subtitle})
 
         if self.small_icon:
             payload.update({'small_icon': self.small_icon})
